@@ -78,6 +78,10 @@ class Play extends Phaser.Scene {
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start('menuScene')
         }
+        //speeds up spaceships after 30 seconds
+        if(game.settings.gameTimer = 30000) {
+            game.settings.spaceshipSpeed += 1;
+        }
         //while there's still time
         if(!this.gameOver) {
             this.starfield.tilePositionX -= 4;
