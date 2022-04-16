@@ -45,6 +45,7 @@ class Play extends Phaser.Scene {
         });
         //initialize score
         this.p1Score = 0;
+
         //display the score
         let scoreConfig = {
             fontFamily: 'Courier',
@@ -59,8 +60,27 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+
+        //display the time
+        this.timeLeft = game.settings.gameTimer / 1000
+        let timeConfig = {
+            fontFamily:'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'left',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 50
+        }
+        this.currentTime = this.add.text(495, 53, this.timeLeft, timeConfig);
+        this.timer = this.time.addEvent({delay: 1000, callback: this.displayRemainingTime, callbackScope: this, loop: true});
+
         //GAME OVER flag
         this.gameOver = false;
+        
         //60 second timer for gameplay
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => { //Phaser calls function after a 60000 millisecond delay, equivalent to 60 seconds
@@ -77,10 +97,6 @@ class Play extends Phaser.Scene {
         }
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start('menuScene')
-        }
-        //speeds up spaceships after 30 seconds
-        if(game.settings.gameTimer = 30000) {
-            game.settings.spaceshipSpeed += 1;
         }
         //while there's still time
         if(!this.gameOver) {
@@ -114,6 +130,13 @@ class Play extends Phaser.Scene {
             return false;
         }
     }
+    //displays the time
+    displayRemainingTime() {
+        if(!this.gameOver) {
+        this.timeLeft -= 1
+        this.currentTime.text = this.timeLeft;
+        }
+    } 
     //for polish
     shipExplode(ship) {
         //temporarily hide ship
