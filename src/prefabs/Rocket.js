@@ -1,3 +1,5 @@
+const { Phaser } = require("../../lib/phaser");
+
 //Rocket prefab
 class Rocket extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
@@ -21,6 +23,11 @@ class Rocket extends Phaser.GameObjects.Sprite {
         if(Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring) {
             this.isFiring = true;
             this.sfxRocket.play(); //play sfx
+        }
+        if(!this.isFiring) {
+            if(game.input.activePointer.isDown) {
+                this.isFiring = true;
+            }
         }
         //move rocket upon firing
         if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
