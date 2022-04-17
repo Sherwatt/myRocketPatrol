@@ -37,6 +37,7 @@ class Play extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        //click =  Phaser.Input.MOUSE_DOWN
         //configuration for animation
         this.anims.create({
             key: 'explode', //now we can call on an animation named 'explode'
@@ -77,6 +78,9 @@ class Play extends Phaser.Scene {
         }
         this.currentTime = this.add.text(550, 53, this.timeLeft, timeConfig);
         this.timer = this.time.addEvent({delay: 1000, callback: this.displayRemainingTime, callbackScope: this, loop: true});
+
+        //adds timer event for ship speed increase
+        this.lightSpeed = this.time.addEvent({delay: 30000, callback: this.faster, callbackScope: this, loop: false});
 
         //GAME OVER flag
         this.gameOver = false;
@@ -137,7 +141,10 @@ class Play extends Phaser.Scene {
         this.currentTime.text = this.timeLeft;
         }
     } 
-    
+    //speeds up the ships after 30 seconds
+    faster() {
+        this.moveSpeed *= 2 ;
+    }
     //for polish
     shipExplode(ship) {
         //temporarily hide ship
