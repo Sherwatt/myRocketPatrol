@@ -68,22 +68,22 @@ class Play extends Phaser.Scene {
             fontSize: '28px',
             backgroundColor: '#F3B141',
             color: '#843605',
-            align: 'left',
+            align: 'right',
             padding: {
                 top: 5,
                 bottom: 5,
             },
-            fixedWidth: 50
+            fixedWidth: 35
         }
-        this.currentTime = this.add.text(495, 53, this.timeLeft, timeConfig);
+        this.currentTime = this.add.text(550, 53, this.timeLeft, timeConfig);
         this.timer = this.time.addEvent({delay: 1000, callback: this.displayRemainingTime, callbackScope: this, loop: true});
 
         //GAME OVER flag
         this.gameOver = false;
         
-        //60 second timer for gameplay
+        //timer for gameplay
         scoreConfig.fixedWidth = 0;
-        this.clock = this.time.delayedCall(game.settings.gameTimer, () => { //Phaser calls function after a 60000 millisecond delay, equivalent to 60 seconds
+        this.clock = this.time.delayedCall(game.settings.gameTimer, () => { //Phaser calls function after a delay of a set time
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
@@ -132,11 +132,12 @@ class Play extends Phaser.Scene {
     }
     //displays the time
     displayRemainingTime() {
-        if(!this.gameOver) {
-        this.timeLeft -= 1
+        if(!this.gameOver) { //stops timer from updating after game has ended
+        this.timeLeft -= 1      //Jimmy helped me a lot here
         this.currentTime.text = this.timeLeft;
         }
     } 
+    
     //for polish
     shipExplode(ship) {
         //temporarily hide ship
