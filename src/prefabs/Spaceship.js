@@ -6,6 +6,11 @@ class Spaceship extends Phaser.GameObjects.Sprite {
         this.moveSpeed = game.settings.spaceshipSpeed;         //pixels per frame
     }
 
+    create() {
+        //adds timer event for ship speed increase
+        this.lightSpeed = this.time.addEvent({delay: 30000, callback: this.faster, callbackScope: this, loop: false});
+    }
+
     update() {
         //move spaceship left
         this.x -= this.moveSpeed;
@@ -13,6 +18,10 @@ class Spaceship extends Phaser.GameObjects.Sprite {
         if(this.x <= 0 - this.width) {
             this.reset();
         }
+    }
+    //speeds up the ships after 30 seconds
+    faster() {
+        game.settings.spaceshipSpeed += 1;
     }
 
     //spaceship reset
