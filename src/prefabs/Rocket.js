@@ -1,5 +1,3 @@
-const { Phaser } = require("../../lib/phaser");
-
 //Rocket prefab
 class Rocket extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
@@ -10,6 +8,9 @@ class Rocket extends Phaser.GameObjects.Sprite {
         this.moveSpeed = 2
         this.sfxRocket = scene.sound.add('sfx_rocket'); //adds rocket sfx
     }
+    create() {
+        pointer = this.input.activePointer
+    }
     update() {
         //left or right movement
         if(!this.isFiring) {
@@ -18,6 +19,9 @@ class Rocket extends Phaser.GameObjects.Sprite {
             } else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width){
                 this.x += this.moveSpeed;
             }
+            else {
+                this.x = pointer.worldX
+            }
         }
         //fire button, 2nd part ensures sound won't play when rocket is in motion
         if(Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring) {
@@ -25,7 +29,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
             this.sfxRocket.play(); //play sfx
         }
         if(!this.isFiring) {
-            if(game.input.activePointer.isDown) {
+            if(pointer.isDown) {
                 this.isFiring = true;
             }
         }
