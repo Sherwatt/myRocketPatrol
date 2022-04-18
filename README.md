@@ -1,2 +1,2 @@
-# myModifiedRocketPatrol
-The original game with some self-programmed modifications.
+# myRocketPatrol
+My first attempt at coding a game in JavaScript
