@@ -37,7 +37,6 @@ class Play extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        //click =  Phaser.Input.MOUSE_DOWN
         //configuration for animation
         this.anims.create({
             key: 'explode', //now we can call on an animation named 'explode'
@@ -61,26 +60,6 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
-
-        //display the time
-        this.timeLeft = game.settings.gameTimer / 1000
-        let timeConfig = {
-            fontFamily:'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 35
-        }
-        this.currentTime = this.add.text(550, 53, this.timeLeft, timeConfig);
-        this.timer = this.time.addEvent({delay: 1000, callback: this.displayRemainingTime, callbackScope: this, loop: true});
-
-        //adds timer event for ship speed increase
-        this.lightSpeed = this.time.addEvent({delay: 30000, callback: this.faster, callbackScope: this, loop: false});
 
         //GAME OVER flag
         this.gameOver = false;
@@ -133,17 +112,6 @@ class Play extends Phaser.Scene {
         } else {
             return false;
         }
-    }
-    //displays the time
-    displayRemainingTime() {
-        if(!this.gameOver) { //stops timer from updating after game has ended
-        this.timeLeft -= 1      //Jimmy helped me a lot here
-        this.currentTime.text = this.timeLeft;
-        }
-    } 
-    //speeds up the ships after 30 seconds
-    faster() {
-        this.moveSpeed *= 2 ;
     }
     //for polish
     shipExplode(ship) {
